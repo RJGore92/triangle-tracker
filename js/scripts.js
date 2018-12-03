@@ -36,11 +36,11 @@ var testScal = function(sideA, sideB, sideC) {
 }
 
 var testInvalidTriangle = function(sideA, sideB, sideC) {
-  if (((sideA + sideB) > sideC) || ((sideA + sideC) > sideB) || ((sideB + sideC) > sideA)) {
-    return false;
+  if (((sideA + sideB) <= sideC) || ((sideA + sideC) <= sideB) || ((sideB + sideC) <= sideA)) {
+    return true;
   }
   else {
-    return true;
+    return false;
   }
 }
 
@@ -49,36 +49,114 @@ $(document).ready(function() {
     sideA = parseInt($("#input-a").val());
     sideB = parseInt($("#input-b").val());
     sideC = parseInt($("#input-c").val());
-
+    event.preventDefault();
     if((sideA == 0) || (sideB == 0) || (sideC == 0))
     {
-      alert("Please make sure all values are above Zero.");
+      alert("Please make sure none of your values are at zero.");
+      return false;
     }
 
-    if (testEqual(sideA, sideB, sideC)) {
+    if (testInvalidTriangle(sideA, sideB, sideC)) {
       $("h4#result-head").after(
+        "<div><h5>The inputs provided do not form a valid triangle.</h5></div>" +
         "<div class='row'>" +
           "<div class='col-md-3'>" +
             "<p>Sides:</p>" +
           "</div>" +
+          "<div class='col-md-3'>" +
+            "<p>A = " + sideA + "</p>" +
+          "</div>" +
+          "<div class='col-md-3'>" +
+            "<p>B = " + sideB + "</p>" +
+          "</div>" +
+          "<div class='col-md-3'>" +
+            "<p>C = " + sideC + "</p>" +
+          "</div>" +
         "</div>"
       );
+      $("div#input-form").hide();
+      $("div#reset-form").show();
+      $("div#result-div").show();
+    }
+    else if (testEqual(sideA, sideB, sideC)) {
+      $("h4#result-head").after(
+        "<div><h5>This input creates an equalateral triangle.</h5></div>" +
+        "<div class='row'>" +
+          "<div class='col-md-3'>" +
+            "<p>Sides:</p>" +
+          "</div>" +
+          "<div class='col-md-3'>" +
+            "<p>A = " + sideA + "</p>" +
+          "</div>" +
+          "<div class='col-md-3'>" +
+            "<p>B = " + sideB + "</p>" +
+          "</div>" +
+          "<div class='col-md-3'>" +
+            "<p>C = " + sideC + "</p>" +
+          "</div>" +
+        "</div>"
+      );
+      $("div#input-form").hide();
+      $("div#reset-form").show();
+      $("div#result-div").show();
     }
     else if (testIso(sideA, sideB, sideC)) {
-
+      $("h4#result-head").after(
+        "<div><h5>This input creates an isosceles triangle.</h5></div>" +
+        "<div class='row'>" +
+          "<div class='col-md-3'>" +
+            "<p>Sides:</p>" +
+          "</div>" +
+          "<div class='col-md-3'>" +
+            "<p>A = " + sideA + "</p>" +
+          "</div>" +
+          "<div class='col-md-3'>" +
+            "<p>B = " + sideB + "</p>" +
+          "</div>" +
+          "<div class='col-md-3'>" +
+            "<p>C = " + sideC + "</p>" +
+          "</div>" +
+        "</div>"
+      );
+      $("div#input-form").hide();
+      $("div#reset-form").show();
+      $("div#result-div").show();
     }
     else if (testScal(sideA, sideB, sideC)) {
-
-    }
-    else if (testInvalidTriangle(sideA, sideB, sideC)) {
-
+      $("h4#result-head").after(
+        "<div><h5>This input creates a scalene triangle.</h5></div>" +
+        "<div class='row'>" +
+          "<div class='col-md-3'>" +
+            "<p>Sides:</p>" +
+          "</div>" +
+          "<div class='col-md-3'>" +
+            "<p>A = " + sideA + "</p>" +
+          "</div>" +
+          "<div class='col-md-3'>" +
+            "<p>B = " + sideB + "</p>" +
+          "</div>" +
+          "<div class='col-md-3'>" +
+            "<p>C = " + sideC + "</p>" +
+          "</div>" +
+        "</div>"
+      );
+      $("div#input-form").hide();
+      $("div#reset-form").show();
+      $("div#result-div").show();
     }
     else {
       alert("Something went wrong.  Please recheck your values.")
+      return false;
     }
 
   });
   $("form#new-form-reset").submit(function(event) {
-
+    event.preventDefault();
+    sideA = null;
+    sideB = null;
+    sideC = null;
+    $("div#input-form").show();
+    $("div#reset-form").hide();
+    $("#form-a")[0].reset();
   });
 });
